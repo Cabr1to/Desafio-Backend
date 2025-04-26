@@ -20,12 +20,22 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
+    public Client getClientById(Long id) {
+        return clientRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException (id + " não encontrado" ));
+    }
+
     public void saveClient(Client client) {
          clientRepository.save(client);
     }
 
-    public Client getClientById(Long id) {
-        return clientRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException (id + " não encontrado" ));
+    public Client updateClient(Client client) {
+        getClientById(Long.valueOf(client.getId()));
+        return clientRepository.save(client);
+    }
+
+    public void deleteClient(Long id) {
+        getClientById(id);
+        clientRepository.deleteById(id);
     }
 }

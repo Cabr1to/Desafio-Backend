@@ -2,9 +2,10 @@ package com.sea.desafio.controller;
 import com.sea.desafio.model.Client;
 import com.sea.desafio.service.ClientService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -28,15 +29,17 @@ public class ClientController {
          clientService.saveClient(client);
         return client;
     }
-//
-//    @PutMapping
-//    public Client updateClient(@RequestBody Client client) {
-//        return clientRepository.save(client);
-//
-//    }
 
-//    @DeleteMapping
-//    public void deleteClient(@RequestBody Client client) {
-//        clientRepository.delete(client);
-//    }
+    @PutMapping("{id}")
+    public Client updateClient(@PathVariable Long id, @RequestBody Client client) {
+        client.setId(id);
+        return clientService.updateClient(client);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteClient(@PathVariable Long id) {
+        clientService.deleteClient(id);
+        return ResponseEntity.noContent().build();
+
+    }
 }

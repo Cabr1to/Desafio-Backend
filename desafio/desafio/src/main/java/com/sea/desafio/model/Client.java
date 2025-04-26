@@ -12,8 +12,8 @@ import java.util.List;
 public class Client {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String nome;
 
@@ -28,6 +28,5 @@ public class Client {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Email> email;
-
 
 }
