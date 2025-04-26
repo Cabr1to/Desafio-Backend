@@ -15,8 +15,8 @@ POST http://localhost:8081/api/v1/clients
 Content-Type: application/json
 
 {
-  "nome": "João Silva",
-  "cpf": "123.456.789-00",
+  "nome": "Joao Silva",
+  "cpf": "036.481.231-14",
   "endereco": {
     "logradouro": "Rua das Flores",
     "numero": "123",
@@ -28,11 +28,11 @@ Content-Type: application/json
   },
   "telefone": [
     {
-      "numero": "(11) 98765-4321",
+      "numero": "11987654321",
       "tipoTelefone": "CELULAR"
     },
     {
-      "numero": "(11) 3456-7890",
+      "numero": "1134567890",
       "tipoTelefone": "RESIDENCIAL"
     }
   ],
@@ -85,6 +85,6 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:8081/api/v1/clients/3
+DELETE http://localhost:8081/api/v1/clients/1
 
 ###

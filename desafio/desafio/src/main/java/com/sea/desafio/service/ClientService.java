@@ -30,7 +30,7 @@ public class ClientService {
     }
 
     public Client updateClient(Client client) {
-        getClientById(Long.valueOf(client.getId()));
+        getClientById(client.getId());
         return clientRepository.save(client);
     }
 
