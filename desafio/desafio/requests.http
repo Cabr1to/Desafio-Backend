@@ -7,6 +7,10 @@ GET http://localhost:8081/api/v1/clients
 
 ###
 
+GET http://localhost:8081/api/v1/clients/1
+
+###
+
 POST http://localhost:8081/api/v1/clients
 Content-Type: application/json
 
