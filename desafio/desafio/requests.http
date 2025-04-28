@@ -1,0 +1,105 @@
+### GET request to example server
+GET http://localhost:8081
+
+###
+
+GET http://localhost:8081/api/v1/clients
+
+###
+
+GET http://localhost:8081/api/v1/clients/2
+
+###
+
+POST http://localhost:8081/api/v1/clients
+Content-Type: application/json
+
+{
+  "nome": "Joao Silva",
+  "cpf": "036.481.231-14",
+  "endereco": {
+    "logradouro": "Rua das Flores",
+    "numero": "123",
+    "complemento": "Apto 302",
+    "bairro": "Centro",
+    "cidade": "São Paulo",
+    "uf": "SP",
+    "cep": "01234-567"
+  },
+  "telefone": [
+    {
+      "numero": "11987654321",
+      "tipoTelefone": "CELULAR"
+    },
+    {
+      "numero": "1134567890",
+      "tipoTelefone": "RESIDENCIAL"
+    }
+  ],
+  "email": [
+    {
+      "email": "joao.silva@email.com"
+    },
+    {
+      "email": "joao.silva@empresa.com"
+    }
+  ]
+}
+
+###
+
+PUT http://localhost:8081/api/v1/clients/2
+Content-Type: application/json
+
+{
+  "nome": "Jorge Santos",
+  "cpf": "123.456.789-00",
+  "endereco": {
+    "logradouro": "Rua das Flores",
+    "numero": "123",
+    "complemento": "Apto 302",
+    "bairro": "Centro",
+    "cidade": "São Paulo",
+    "uf": "SP",
+    "cep": "01234-567"
+  },
+  "telefone": [
+    {
+      "numero": "(11) 98765-4321",
+      "tipoTelefone": "CELULAR"
+    },
+    {
+      "numero": "(11) 3456-7890",
+      "tipoTelefone": "RESIDENCIAL"
+    }
+  ],
+  "email": [
+    {
+      "email": "joao.silva@email.com"
+    },
+    {
+      "email": "joao.silva@empresa.com"
+    }
+  ]
+}
+
+###
+
+DELETE http://localhost:8081/api/v1/clients/1
+
+###
+
+POST http://localhost:8081/api/v1/login
+Content-Type: application/json
+
+{
+  "username": "user",
+  "password": "123"
+
+}
+
+###
+
+###
+
+###
