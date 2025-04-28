@@ -1,6 +1,8 @@
 package com.sea.desafio.security.JWT;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,7 +36,13 @@ public class JwtTokenProvider {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
+                .map(authority -> {
+                    if (authority.getAuthority().startsWith("ROLE_")) {
+                        return authority.getAuthority();
+                    } else {
+                        return "ROLE_" + authority.getAuthority();
+                    }
+                })
                 .collect(Collectors.joining(","));
 
         Date now = new Date();
@@ -72,7 +80,14 @@ public class JwtTokenProvider {
         try {
             Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token);
             return true;
+        } catch (ExpiredJwtException e) {
+            System.err.println("Token expirado: " + e.getMessage());
+            return false;
+        } catch (JwtException e) {
+            System.err.println("Token inválido: " + e.getMessage());
+            return false;
         } catch (Exception e) {
+            System.err.println("Erro ao validar token: " + e.getMessage());
             return false;
         }
     }

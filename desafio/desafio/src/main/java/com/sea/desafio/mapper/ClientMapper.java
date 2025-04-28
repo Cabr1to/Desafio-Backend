@@ -39,7 +39,6 @@ public class ClientMapper {
         if (dto == null) return null;
 
         Client client = new Client();
-        // Não definimos ID ao criar uma nova entidade
         client.setNome(dto.getNome());
         client.setCpf(dto.getCpfSemMascara());
         client.setEndereco(addressMapper.toEntity(dto.getEndereco()));
@@ -55,14 +54,13 @@ public class ClientMapper {
     public void updateEntityFromDTO(ClientDTO dto, Client client) {
         if (dto == null || client == null) return;
 
-        // Atualizamos apenas os campos que podem ser alterados
+        // Att campos que podem ser alterados
         if (dto.getNome() != null) {
             client.setNome(dto.getNome());
         }
         if (dto.getCpfSemMascara() != null) {
             client.setCpf(dto.getCpfSemMascara());
         }
-        // Atualizar relacionamentos é mais complexo e pode exigir lógica adicional
     }
 
     private String formatCPF(String cpf) {

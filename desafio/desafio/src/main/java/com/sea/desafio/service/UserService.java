@@ -31,12 +31,12 @@ public class UserService implements UserDetailsService {
                 .build();
     }
 
-    public User createUser(String username, String password, RoleUser role) {
+    public void createUser(String username, String password, RoleUser role) {
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
         user.setRole(role);
 
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 }
