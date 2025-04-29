@@ -21,7 +21,6 @@ public class PhoneMapper {
         if (dto == null) return null;
 
         Phone phone = new Phone();
-        // Não definimos ID ao criar uma nova entidade
         phone.setNumero(dto.getNumeroSemMascara());
         phone.setTipoTelefone(dto.getTipo());
         return phone;
@@ -30,17 +29,15 @@ public class PhoneMapper {
     private String formatPhoneNumber(String numero) {
         if (numero == null) return null;
 
-        // Remove todos os caracteres não numéricos
         String digits = numero.replaceAll("\\D", "");
 
-        // Formata conforme o número de dígitos
+        // Formatacao
         if (digits.length() == 10) { // Telefone fixo
             return digits.replaceAll("(\\d{2})(\\d{4})(\\d{4})", "($1) $2-$3");
         } else if (digits.length() == 11) { // Celular
             return digits.replaceAll("(\\d{2})(\\d{5})(\\d{4})", "($1) $2-$3");
         }
 
-        // Se não for um formato reconhecido, retorna o original
         return numero;
     }
 }

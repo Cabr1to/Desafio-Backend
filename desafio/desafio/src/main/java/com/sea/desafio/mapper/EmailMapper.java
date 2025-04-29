@@ -20,7 +20,6 @@ public class EmailMapper {
         if (dto == null) return null;
 
         Email email = new Email();
-        // Não definimos ID ao criar uma nova entidade
         email.setEmail(dto.getEndereco());
         return email;
     }

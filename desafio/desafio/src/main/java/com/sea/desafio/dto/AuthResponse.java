@@ -5,13 +5,13 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class JwtResponse {
+public class AuthResponse {
     private String token;
     private String type = "Bearer";
     private String username;
     private String role;
 
-    public JwtResponse(String token, String username, String role) {
+    public AuthResponse(String token, String username, String role) {
         this.token = token;
         this.username = username;
         this.role = role;
