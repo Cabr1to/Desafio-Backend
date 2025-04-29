@@ -22,13 +22,13 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) {
         // Cria usuário admin
         if (!userRepository.existsByUsername("admin")) {
-            userService.createUser("admin", "123q", RoleUser.ROLE_ADMIN);
+            userService.createUser("admin", "123qwe!@#", RoleUser.ROLE_ADMIN);
             System.out.println("Usuário admin criado com senha");
         }
 
         // Cria usuário padrão
         if (!userRepository.existsByUsername("user")) {
-            userService.createUser("user", "123", RoleUser.ROLE_USER);
+            userService.createUser("user", "123qwe123", RoleUser.ROLE_USER);
             System.out.println("Usuário padrão criado com senha");
         }
     }
