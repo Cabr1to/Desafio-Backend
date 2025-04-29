@@ -25,7 +25,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
 
         // Adicionar cabeçalhos CORS para todas as respostas
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:5175"); // URL do seu frontend Vite
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173"); // URL do seu frontend Vite
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, X-Requested-With");
         response.setHeader("Access-Control-Allow-Credentials", "true");
