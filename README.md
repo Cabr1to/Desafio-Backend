@@ -140,3 +140,16 @@ Telefones
 Tipos suportados: CELULAR, RESIDENCIAL ou COMERCIAL
 
 Formato: Validação e máscara específica por tipo
+
+
+## 🧪 Testando a API com Postman
+
+Para facilitar os testes da API, disponibilizei uma Collection do Postman com todos os endpoints configurados.
+
+### Como importar a Collection
+
+1. Abra o Postman
+2. Clique em "Import" no canto superior esquerdo
+3. Selecione a opção "Raw text"
+4. Cole o conteúdo JSON da Collection abaixo
+5. Clique em "Import"
