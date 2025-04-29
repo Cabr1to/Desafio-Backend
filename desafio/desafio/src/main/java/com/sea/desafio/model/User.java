@@ -2,7 +2,6 @@ package com.sea.desafio.model;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.*;
 
 @Entity

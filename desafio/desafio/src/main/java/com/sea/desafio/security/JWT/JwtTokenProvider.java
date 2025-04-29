@@ -23,15 +23,13 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
-    // Chave segura gerada para HS512
+    // HS512
     private final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
     @Value("${jwt.expiration:86400000}") // 24 horas em milissegundos
     private long validityInMs;
 
-    /**
-     * Cria um token JWT a partir da autenticação do usuário
-     */
+
     public String createToken(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
@@ -51,9 +49,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    /**
-     * Extrai a autenticação do usuário a partir do token JWT
-     */
+
     public Authentication getAuthentication(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key)
@@ -73,9 +69,6 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
-    /**
-     * Valida o token JWT
-     */
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder()
@@ -99,9 +92,6 @@ public class JwtTokenProvider {
         return false;
     }
 
-    /**
-     * Extrai o nome de usuário do token JWT
-     */
     public String getUsernameFromToken(String token) {
         try {
             return Jwts.parserBuilder()
