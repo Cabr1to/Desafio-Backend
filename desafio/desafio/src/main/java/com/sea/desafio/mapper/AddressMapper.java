@@ -25,7 +25,6 @@ public class AddressMapper {
         if (dto == null) return null;
 
         Address address = new Address();
-        // Não definimos ID ao criar uma nova entidade
         address.setCep(dto.getCepSemMascara());
         address.setLogradouro(dto.getLogradouro());
         address.setComplemento(dto.getComplemento());

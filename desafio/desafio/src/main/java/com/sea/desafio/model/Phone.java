@@ -27,7 +27,7 @@ public class Phone {
     @JoinColumn(name = "client_id")
     private Client client;
 
-    // Método auxiliar para validação cruzada (pode ser usado em um validator customizado)
+    // Validacao
     public boolean isValid() {
         if (numero == null || tipoTelefone == null) {
             return false;

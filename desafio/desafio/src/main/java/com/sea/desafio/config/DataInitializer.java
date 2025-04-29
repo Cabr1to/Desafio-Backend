@@ -20,16 +20,16 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        // Cria usuário admin se não existir
+        // Cria usuário admin
         if (!userRepository.existsByUsername("admin")) {
             userService.createUser("admin", "123q", RoleUser.ROLE_ADMIN);
-            System.out.println("Usuário admin criado com senha: 123q");
+            System.out.println("Usuário admin criado com senha");
         }
 
-        // Cria usuário padrão se não existir
+        // Cria usuário padrão
         if (!userRepository.existsByUsername("user")) {
             userService.createUser("user", "123", RoleUser.ROLE_USER);
-            System.out.println("Usuário padrão criado com senha: 123");
+            System.out.println("Usuário padrão criado com senha");
         }
     }
 }

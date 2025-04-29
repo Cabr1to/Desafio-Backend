@@ -1,12 +1,15 @@
 package com.sea.desafio.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AddressDTO {
+    private String cep;
     private Long id;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String cepSemMascara;

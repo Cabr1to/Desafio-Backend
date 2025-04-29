@@ -1,10 +1,10 @@
 package com.sea.desafio.security.JWT;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,36 +13,28 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.nio.charset.StandardCharsets;
+import javax.crypto.SecretKey;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-import javax.crypto.SecretKey;
-
 @Component
 public class JwtTokenProvider {
+    private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
-    private final String secretKey = "suaChaveSecretaMuitoSeguraComPeloMenos32Caracteres";
-    private final long validityInMs = 86400000; // 24 horas
+    // HS512
+    private final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
-    private SecretKey getSigningKey() {
-        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
-        return Keys.hmacShaKeyFor(keyBytes);
-    }
+    @Value("${jwt.expiration:86400000}") // 24 horas em milissegundos
+    private long validityInMs;
+
 
     public String createToken(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         String authorities = authentication.getAuthorities().stream()
-                .map(authority -> {
-                    if (authority.getAuthority().startsWith("ROLE_")) {
-                        return authority.getAuthority();
-                    } else {
-                        return "ROLE_" + authority.getAuthority();
-                    }
-                })
+                .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
         Date now = new Date();
@@ -53,13 +45,14 @@ public class JwtTokenProvider {
                 .claim("auth", authorities)
                 .setIssuedAt(now)
                 .setExpiration(validity)
-                .signWith(getSigningKey())
+                .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
     }
 
+
     public Authentication getAuthentication(String token) {
         Claims claims = Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
+                .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -78,26 +71,38 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token);
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
             return true;
         } catch (ExpiredJwtException e) {
-            System.err.println("Token expirado: " + e.getMessage());
-            return false;
-        } catch (JwtException e) {
-            System.err.println("Token inválido: " + e.getMessage());
-            return false;
+            logger.error("Token expirado: {}", e.getMessage());
+        } catch (UnsupportedJwtException e) {
+            logger.error("Token não suportado: {}", e.getMessage());
+        } catch (MalformedJwtException e) {
+            logger.error("Token malformado: {}", e.getMessage());
+        } catch (SignatureException e) {
+            logger.error("Falha na verificação da assinatura: {}", e.getMessage());
+        } catch (IllegalArgumentException e) {
+            logger.error("Token vazio ou nulo: {}", e.getMessage());
         } catch (Exception e) {
-            System.err.println("Erro ao validar token: " + e.getMessage());
-            return false;
+            logger.error("Erro desconhecido ao validar token: {}", e.getMessage());
         }
+        return false;
     }
 
     public String getUsernameFromToken(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
+        } catch (Exception e) {
+            logger.error("Não foi possível extrair o username do token: {}", e.getMessage());
+            return null;
+        }
     }
 }
