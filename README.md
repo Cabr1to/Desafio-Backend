@@ -33,7 +33,7 @@ Repositório contendo uma API RESTful completa para gerenciamento de clientes, i
 ```bash
 # Clonar repositório
 git clone https://github.com/Cabr1to/Desafio-Backend.git
-cd gerenciamento-clientes
+cd Desafio-Backend/desafio/desafio
 
 # Iniciar banco de dados MySQL com Docker
 docker-compose up -d
